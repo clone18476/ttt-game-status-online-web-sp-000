@@ -4,87 +4,66 @@ def position_taken?(board, index)
 end
 
 # Define your WIN_COMBINATIONS constant
-WIN_COMBINATIONS = [[0,1,2],
-  [3,4,5],
-  [6,7,8],
-  [0,3,6],
-  [1,4,7],
-  [2,5,8],
-  [0,4,8],
-  [6,4,2],
+WIN_COMBINATIONS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [6, 4, 2]
 ]
 
-
 def won?(board)
-  if board == WIN_COMBINATIONS.each do |i|
-    puts i
-  end 
+  WIN_COMBINATIONS.each {|win_combo|
+    index_0 = win_combo[0]
+    index_1 = win_combo[1]
+    index_2 = win_combo[2]
+
+    position_1 = board[index_0]
+    position_2 = board[index_1]
+    position_3 = board[index_2]
+
+    if position_1 == "X" && position_2 == "X" && position_3 == "X"
+      return win_combo
+    elsif position_1 == "O" && position_2 == "O" && position_3 == "O"
+      return win_combo
+    end
+  }
+  return false
+end
+
+def full?(board)
+  board.all? {|index| index == "X" || index == "O"}
+end
+
+def draw?(board)
+  if !won?(board) && full?(board)
+    return true
   else
-    puts false 
-  end 
-end 
+    return false
+  end
+end
 
+def over?(board)
+  if won?(board) || full?(board) || draw?(board)
+    return true
+  else
+    return false
+  end
+end
 
-
-# describe "#won?" do
-#   it 'returns falsey for an empty board' do
-#     board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
-
-#     expect(won?(board)).to be_falsey
-#   end
-
-#   it 'returns falsey for a draw' do
-#     board = ["X", "O", "X", "O", "X", "X", "O", "X", "O"]
-
-#     expect(won?(board)).to be_falsey
-#   end
-
-#   it 'returns an array of matching indexes for a top row win' do
-#     board = ["X", "X", "X", "O", "O", " ", " ", " ", " "]
-
-#     expect(won?(board)).to match_array([0,1,2])
-#   end
-
-#   it 'returns an array of matching indexes for a middle row win' do
-#     board = ["O", "O", " ", "X", "X", "X", " ", " ", " "]
-
-#     expect(won?(board)).to match_array([3,4,5])
-#   end
-
-#   it 'returns an array of matching indexes for a bottom row win' do
-#     board = [" ", " ", " ", "O", "O", " ", "X", "X", "X"]
-
-#     expect(won?(board)).to match_array([6,7,8])
-#   end
-
-#   it 'returns an array of matching indexes for a left column win' do
-#     board = ["O", " ", "X", "O", " ", "X", "O", " ", " "]
-
-#     expect(won?(board)).to match_array([0,3,6])
-#   end
-
-#   it 'returns an array of matching indexes for a middle column win' do
-#     board = ["X", "O", " ", "X", "O", " ", " ", "O", " "]
-
-#     expect(won?(board)).to match_array([1,4,7])
-#   end
-
-#   it 'returns an array of matching indexes for a right column win' do
-#     board = ["X", " ", "O", "X", " ", "O", " ", " ", "O"]
-
-#     expect(won?(board)).to match_array([2,5,8])
-#   end
-
-#   it 'returns an array of matching indexes for a left diagonal win' do
-#     board = ["X", " ", "O", " ", "X", "O", " ", " ", "X"]
-
-#     expect(won?(board)).to match_array([0,4,8])
-#   end
-
-#   it 'returns an array of matching indexes for a right diagonal win' do
-#     board = ["X", " ", "O", "X", "O", " ", "O", " ", " "]
-
-#     expect(won?(board)).to match_array([2,4,6])
-#   end
-# end
-#
+def winner (board)
+  index = []
+  index = won?(board)
+  if index == false
+    return nil
+  else
+    if board[index[0]] == "X"
+      return "X"
+    else
+      return "O"
+    end
+  end
+end
