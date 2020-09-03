@@ -20,6 +20,7 @@ def won?(board)
     puts i
   end 
   else
+    puts false 
   end 
 end 
 
